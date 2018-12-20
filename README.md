@@ -24,6 +24,12 @@ In this hand-on lab, you will be challenged to implement an end-to-end scenario 
 
 - [blaa](blaa)
 
+## Azure DevOps services used
+
+- Azure Repos
+- Azure Pipelines
+- Application Insights
+
 # Disclaimer
 
 This is the lab portion of Microsoft Premier Services - Proof of Concept Workshop - Activate Azure for DevOps. All code in this repo is intended for that purpose.
