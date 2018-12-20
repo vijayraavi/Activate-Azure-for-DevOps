@@ -20,15 +20,15 @@ In this proof of concept, you will will utilize the PartsUnlimited project. Part
 
 In this hand-on lab, you will be challenged to implement an end-to-end scenario using a supplied sample that is based on Modern Applications in Azure using DevOps.  
 
-## Related references, resources, and material
-
-- [blaa](blaa)
-
-## Azure DevOps services used
+### Azure DevOps services used
 
 - Azure Repos
 - Azure Pipelines
 - Application Insights
+
+### Related references, resources, and material
+
+- [blaa](blaa)
 
 # Disclaimer
 
