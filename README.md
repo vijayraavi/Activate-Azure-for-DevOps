@@ -10,7 +10,7 @@ Activate Azure with DevOps introduces the business value to Microsoft Azure and 
 
 ### Workshop
 
-In this workshop, you will work learn about core DevOps principles and benefits, and how it relates to Azure. DevOps is more than a buzzword in IT. It a necessity to delivery business value in a consistent, repeatable fashion. Customers know they need DevOps, but they may not know where to start. They may also have started down the DevOps journey, and need to know what it means in a cloud first world. How do the things they are currently doing on premise applicable to Azure.
+In this workshop, you will work learn about core DevOps principles and benefits, and how it relates to Azure. DevOps is more than a buzzword in IT. It a necessity to delivery business value in a consistent, repeatable fashion. Customers know they need DevOps, but they may not know where to start. They may also have started down the DevOps journey, and need to know what it means in a cloud first world. How do the efforts being done on premise applicable to what can be done in Azure.
 
 ### Proof of Concept (POC)
 
