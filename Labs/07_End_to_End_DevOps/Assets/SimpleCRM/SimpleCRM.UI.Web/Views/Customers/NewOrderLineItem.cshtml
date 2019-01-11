@@ -1,0 +1,104 @@
+﻿@model SimpleCRM.Entities.SalesOrderDetail
+
+@{
+    ViewBag.Title = "View";
+    int index = Convert.ToInt32(ViewData["iterator"]);
+}
+
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProductID, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-3">
+            @Html.HiddenFor(model => model.ProductID, htmlAttributes: new { @id = "productId" + @index })
+            @Html.HiddenFor(model => model.Product.Name, htmlAttributes: new { @id = "productName" + @index })
+            @Html.HiddenFor(model => model.Product.ProductNumber, htmlAttributes: new { @id = "productNumber" + @index })
+            @Html.HiddenFor(model => model.rowguid, htmlAttributes: new { @id = "rowGuid" + @index })
+            <input type="text" class="form-control productSelector" id="productSelector_@index" />
+            @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+        </div>
+
+        @Html.LabelFor(model => model.OrderQty, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-1">
+            @Html.EditorFor(model => model.OrderQty, new { htmlAttributes = new { @id = "quantity" + @index, @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.OrderQty, "", new { @class = "text-danger" })
+        </div>
+
+        @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-1">
+            @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @id = "unitPrice" + @index, @disabled = "disabled", @class = "form-control " } })
+            @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+        </div>
+
+        @Html.LabelFor(model => model.UnitPriceDiscount, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-1">
+            @Html.EditorFor(model => model.UnitPriceDiscount, new { htmlAttributes = new { @id = "unitPriceDiscount" + @index, @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UnitPriceDiscount, "", new { @class = "text-danger" })
+        </div>
+
+        @Html.LabelFor(model => model.LineTotal, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-1">
+            @Html.EditorFor(model => model.LineTotal, new { htmlAttributes = new { @id = "lineTotal" + @index, @disabled = "disabled", @class = "form-control col-md-1" } })
+            @Html.ValidationMessageFor(model => model.LineTotal, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var products = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: '/ProductLookup/?q=%QUERY'
+    });
+
+    products.initialize();
+
+
+
+    $('#productSelector_' + @index + '').typeahead(null, {
+        name: '_0__Name',
+        hint: true,
+        highlight: true,
+        minLength: 1,
+        displayKey: 'Name',
+        templates: {
+            empty: [
+             '<div class="empty-message">',
+             'no results found',
+             '</div>'
+            ].join('\n'),
+            suggestion: function (data) {
+                return '<div class="suggestion"><strong>' + data.Name + '</strong> - ' + '<br />Unit Price: $' + data.Price + '</div>';
+            }
+        },
+        source: products.ttAdapter()
+    }).bind("typeahead:selected", function (obj, datum, name) {
+        $('#productId' + @index + '').val(datum.Id);
+        $('#productName' + @index + '').val(datum.Name);
+        $('#productNumber' + @index + '').val(datum.ProductNumber);
+        $('#unitPrice' + @index + '').val(datum.Price);
+        var total = ($('#quantity' + @index + '').val() * $('#unitPrice' + @index + '').val()) - $('#unitPriceDiscount' + @index + '').val();
+        $('#lineTotal' + @index + '').val(total);
+        $('#lineTotal' + @index + '').trigger('change');
+    });
+
+    $('#quantity' + @index + '').blur(function () {
+        var total = ($('#quantity' + @index + '').val() * $('#unitPrice' + @index + '').val()) - $('#unitPriceDiscount' + @index + '').val();
+        $('#lineTotal' + @index + '').val(total);
+        $('#lineTotal' + @index + '').trigger('change');
+    });
+    $('#unitPriceDiscount' + @index + '').blur(function () {
+        var total = ($('#quantity' + @index + '').val() * $('#unitPrice' + @index + '').val()) - $('#unitPriceDiscount' + @index + '').val();
+        $('#lineTotal' + @index + '').val(total);
+        $('#lineTotal' + @index + '').trigger('change');
+    });
+</script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

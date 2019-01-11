@@ -1,0 +1,164 @@
+﻿@model SimpleCRM.UI.Models.SalesOrderViewModel
+
+@{
+    ViewBag.Title = "NewOrder";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h2>NewOrder</h2>
+        <h4>SalesOrderHeader</h4>
+        @Html.HiddenFor(model => model.Order.CustomerID)
+        @Html.HiddenFor(model => model.Order.SalesOrderNumber)
+        @Html.HiddenFor(model => model.Order.ShipMethod)
+        <hr />
+        @Html.ValidationSummary(true, "Your page has errors that need to be fixed.", new { @class = "text-danger" })
+        <div class="row form-group">
+
+            @Html.LabelFor(model => model.Order.DueDate, htmlAttributes: new { @class = "control-label col-lg-1" })
+            <div class="col-lg-2">
+                @Html.EditorFor(model => model.Order.DueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.Order.DueDate, "", new { @class = "text-danger" })
+            </div>
+
+            @Html.LabelFor(model => model.Order.SubTotal, htmlAttributes: new { @class = "control-label col-lg-1" })
+            <div class="col-lg-1">
+                @Html.EditorFor(model => model.Order.SubTotal, new { htmlAttributes = new { @id = "orderSubtotal", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Order.SubTotal, "", new { @class = "text-danger" })
+            </div>
+
+            @Html.LabelFor(model => model.Order.TaxAmt, htmlAttributes: new { @class = "control-label col-lg-1" })
+            <div class="col-lg-1">
+                @Html.EditorFor(model => model.Order.TaxAmt, new { htmlAttributes = new { @id = "orderTax", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Order.TaxAmt, "", new { @class = "text-danger" })
+            </div>
+
+            @Html.LabelFor(model => model.Order.Freight, htmlAttributes: new { @class = "control-label col-lg-1" })
+            <div class="col-lg-1">
+                @Html.EditorFor(model => model.Order.Freight, new { htmlAttributes = new { @id = "orderFreight", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Order.Freight, "", new { @class = "text-danger" })
+            </div>
+
+
+            @Html.LabelFor(model => model.Order.TotalDue, htmlAttributes: new { @class = "control-label col-lg-1" })
+            <div class="col-lg-1">
+                @Html.EditorFor(model => model.Order.TotalDue, new { htmlAttributes = new { @id = "orderTotal", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Order.TotalDue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Order.Comment, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-lg-11">
+                @Html.EditorFor(model => model.Order.Comment, new { htmlAttributes = new { @class = "form-control col-md-11" } })
+                @Html.ValidationMessageFor(model => model.Order.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Ship To:</a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        @Html.EditorFor(model => model.Order.ShipToAddress, Model.Order.ShipToAddress)
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Bill To:</a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        @Html.EditorFor(model => model.Order.BillToAddress, Model.Order.BillToAddress)
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Line Items:</a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        @{
+    for (int i = 0; i < Model.LineItems.Count; i++)
+    {
+
+        var vdd = new ViewDataDictionary();
+        vdd.Add(new KeyValuePair<string, object>("iterator", i));
+        vdd.TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "LineItems[" + i.ToString() + "]" };
+
+        @Html.Partial("/Views/Customers/NewOrderLineItem.cshtml",
+                                         Model.LineItems[i],
+                                         vdd)
+    }
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    var totalBeforeTax = 0;
+
+    $('[id*="lineTotal"]').each(function (index) {
+        $(this).change(function () {
+            totalBeforeTax = totalBeforeTax + Number($(this).val());
+            var tax = totalBeforeTax * 0.07;
+            var freight = totalBeforeTax * 0.05;
+            var total = totalBeforeTax + tax + freight;
+            $('#orderSubtotal').val(totalBeforeTax);
+            $('#orderTax').val(tax);
+            $('#orderFreight').val(freight);
+            $('#orderTotal').val(total);
+        });
+    });
+    $.ready(function () {
+        jQuery.validator.addMethod('futuredate', function (value, element, params) {
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date();
+            }
+            return isNaN(value) && isNaN($(params).val()) || (parseFloat(value) > parseFloat($(params).val()));
+        }, '');
+
+        jQuery.validator.unobtrusive.adapters.add('futuredate', {}, function (options) {
+            options.rules['futuredate'] = true;
+            options.messages['futuredate'] = options.message;
+        });
+    });
+
+
+
+</script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker(); //Initialise any date pickers
+        });
+    </script>
+}
+
+
+
+
