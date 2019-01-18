@@ -1,6 +1,8 @@
 # Activate Azure for DevOps
 Activate Azure with DevOps introduces the business value to Microsoft Azure and how workloads can be run in the cloud. In addition it stresses on the importance of DevOps and walks the attendees through fundamental steps that enables the correct implementation of DevOps in Microsoft Azure within an organization.
 
+[https://github.com/Microsoft/Activate-Azure-for-DevOps/tree/master/Datasheet/Activate Azure with DevOps_Datasheet.pdf](Datasheet for Activate Azure with DevOps)
+
 ## Target Audience
 
 - Application architects
