@@ -28,7 +28,9 @@ In this hand-on lab, you will be challenged to implement an end-to-end scenario 
 
 ### Related references, resources, and material
 
-- [blaa](blaa)
+- [](Datasheet for Activate Azure with DevOps)
+- [https://github.com/Microsoft/PartsUnlimited](PartUnlimited Sample)
+- [] (WorkshopPLUS - DevOps Fundementals)
 
 # Disclaimer
 
