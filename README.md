@@ -28,9 +28,7 @@ In this hand-on lab, you will be challenged to implement an end-to-end scenario 
 
 ### Related references, resources, and material
 
-- [](Datasheet for Activate Azure with DevOps)
-- [https://github.com/Microsoft/PartsUnlimited](PartUnlimited Sample)
-- [] (WorkshopPLUS - DevOps Fundementals)
+- [PartUnlimited Sample](https://github.com/Microsoft/PartsUnlimited)
 
 # Disclaimer
 
@@ -42,13 +40,7 @@ If you are interested in the full workshop, please contact your local Microsoft 
 
 # Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+This project welcomes suggestions.  
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
